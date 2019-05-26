@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".HomeActivity">
+
+    <TextView
+            android:id="@+id/result_rubbish_category"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/rubbish_wet_name"
+            android:textColor="@color/rubbish_wet_color"
+            android:textSize="30dp"
+            android:layout_gravity="center_horizontal"/>
+
+
+    <LinearLayout
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginStart="20dp"
+            android:background="@drawable/shape_result_circle_border_large_raduis"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+        <LinearLayout
+                android:layout_marginTop="10dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+            <ImageView
+                    android:id="@+id/result_rubbish_image"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:src="@drawable/icon_wet"/>
+
+            <TextView
+                    android:id="@+id/result_rubbish_description"
+                    android:textSize="16sp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/rubbish_wet_descriptions"
+                    android:textColor="@color/rubbish_wet_color"/>
+
+        </LinearLayout>
+
+
+        <TextView
+                android:id="@+id/result_rubbish_contain_title"
+                android:layout_marginTop="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/rubbish_wet_contains_title"
+                android:background="@color/rubbish_wet_color"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:padding="4dp"
+                android:gravity="center_horizontal"/>
+
+        <TextView
+                android:id="@+id/result_rubbish_contain_content"
+                android:layout_marginTop="20dp"
+                android:textSize="16sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/rubbish_wet_contains_content"
+                android:textColor="@color/rubbish_wet_color"/>
+
+        <TextView
+                android:id="@+id/result_rubbish_categorize_title"
+                android:layout_marginTop="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/rubbish_wet_categorize_title"
+                android:background="@color/rubbish_wet_color"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:padding="4dp"
+                android:gravity="center_horizontal"/>
+
+        <TextView
+                android:id="@+id/result_rubbish_categorize_content"
+                android:layout_marginTop="20dp"
+                android:textSize="16sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/rubbish_wet_categorize_content"
+                android:textColor="@color/rubbish_wet_color"/>
+
+    </LinearLayout>
+
+</LinearLayout>

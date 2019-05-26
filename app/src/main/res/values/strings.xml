@@ -1,0 +1,29 @@
+<resources>
+    <string name="app_name">GoRubbish</string>
+
+    <string name="search">搜\t\t索</string>
+    <string name="search_keywords_hint">检索关键词</string>
+
+
+    <!-- descriptions for rubbish_wet -->
+    <string name="rubbish_wet_name">湿垃圾</string>
+    <string name="rubbish_wet_descriptions">日常生活垃圾产生的容易腐烂的生物质废弃物</string>
+    <string name="rubbish_wet_contains_title">湿垃圾主要包括</string>
+    <string name="rubbish_wet_contains_content">剩菜剩饭、瓜皮果核、花卉绿植、过期食品等</string>
+    <string name="rubbish_wet_categorize_title">湿垃圾投放要求</string>
+    <string name="rubbish_wet_categorize_content">纯流质的食物垃圾，如牛奶等，应直接倒进下水口\n有包装物的湿垃圾应将包装物去除后分类投放，包装物请投放到对应的可回收物或干垃圾容器</string>
+
+
+    <string name="rubbish_dry_name">干垃圾</string>
+
+
+    <string name="rubbish_harm_name">有害垃圾</string>
+
+    <string name="rubbish_recycle_name">可回收物</string>
+
+
+    <string name="rubbish_unknown_name">未知</string>
+
+
+    <string name="rubbish_copyright">数据来源@上海发布2019</string>
+</resources>
