@@ -5,6 +5,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
+        android:background="@color/white"
         tools:context=".HomeActivity">
 
     <ScrollView
@@ -16,18 +17,18 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
             <ImageView
-                    android:layout_marginTop="40dp"
+                    android:layout_marginTop="10dp"
                     android:layout_gravity="center_horizontal"
-                    android:layout_width="320dp"
-                    android:layout_height="100dp"
-                    android:src="@drawable/title_logo"/>
+                    android:layout_width="340dp"
+                    android:layout_height="80dp"
+                    android:src="@drawable/title_logo_bar"/>
 
 
             <LinearLayout
                     android:layout_marginStart="10dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginEnd="10dp"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
