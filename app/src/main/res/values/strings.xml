@@ -15,12 +15,25 @@
 
 
     <string name="rubbish_dry_name">干垃圾</string>
-
+    <string name="rubbish_dry_descriptions">除有害垃圾、可回收物、 湿垃圾以外的其他生活废弃物</string>
+    <string name="rubbish_dry_contains_title">干垃圾主要包括</string>
+    <string name="rubbish_dry_contains_content">餐盒、餐巾纸、湿纸巾、卫生间用纸、塑料袋、 食品包装袋、污染严重的纸、烟蒂、纸尿裤、 一次性杯子、大骨头、贝壳、花盆、陶瓷等</string>
+    <string name="rubbish_dry_categorize_title">干垃圾投放要求</string>
+    <string name="rubbish_dry_categorize_content">尽量沥干水分\n难以辨识类别的生活垃圾投入干垃圾容器内</string>
 
     <string name="rubbish_harm_name">有害垃圾</string>
+    <string name="rubbish_harm_descriptions">对人体健康或者自然环境造成直接或潜在危害的废弃物</string>
+    <string name="rubbish_harm_contains_title">有害垃圾主要包括</string>
+    <string name="rubbish_harm_contains_content">废电池、油漆桶、荧光灯管、废药品及其包装物等</string>
+    <string name="rubbish_harm_categorize_title">有害垃圾投放要求</string>
+    <string name="rubbish_harm_categorize_content">投放时请注意轻放\n易破损的请连带包装或包裹后轻放\n如易挥发，请密封后投放</string>
 
     <string name="rubbish_recycle_name">可回收物</string>
-
+    <string name="rubbish_recycle_descriptions">适宜回收利用和资源化利 用的，如：玻、金、塑、 纸、衣</string>
+    <string name="rubbish_recycle_contains_title">有害垃圾主要包括</string>
+    <string name="rubbish_recycle_contains_content">酱油瓶、玻璃杯、平板玻璃、易拉罐、饮料瓶、 洗发水瓶、塑料玩具、书本、报纸、广告单、 纸板箱、衣服、床上用品等</string>
+    <string name="rubbish_recycle_categorize_title">有害垃圾投放要求</string>
+    <string name="rubbish_recycle_categorize_content">轻投轻放\n清洁干燥，避免污染\n废纸尽量平整\n立体包装物请清空内容物，清洁后压扁投放\n有尖锐边角的，应包裹后投放</string>
 
     <string name="rubbish_unknown_name">未知</string>
 

@@ -6,4 +6,7 @@
     <color name="white">#FFFFFF</color>
 
     <color name="rubbish_wet_color">#664035</color>
+    <color name="rubbish_dry_color">#2C2B27</color>
+    <color name="rubbish_harm_color">#E53122</color>
+    <color name="rubbish_recycle_color">#104883</color>
 </resources>

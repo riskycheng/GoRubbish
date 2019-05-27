@@ -1,12 +1,16 @@
 package com.fatfish.chengjian.gorubbish;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
 import android.media.Image;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.*;
 import okhttp3.*;
 import org.jsoup.Jsoup;
@@ -39,6 +43,7 @@ public class HomeActivity extends Activity {
     private ImageView mImageview_result_category;
 
 
+    @SuppressLint("HandlerLeak")
     public Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -130,21 +135,74 @@ public class HomeActivity extends Activity {
 
         mLinearLayoutResultPart.setVisibility(View.VISIBLE);
         mLinearLayoutCategories.setVisibility(View.GONE);
+        //hide the method
+        InputMethodManager methodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        methodManager.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+
         switch (rubbishType) {
             case RUBBISH_DRY:
+                mImageview_result_category.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.icon_dry));
                 mTextView_result_category.setText(getString(R.string.rubbish_dry_name));
+                mTextView_result_category.setTextColor(ContextCompat.getColor(this, R.color.rubbish_dry_color));
+                mTextView_result_description.setText(getString(R.string.rubbish_dry_descriptions));
+                mTextView_result_description.setTextColor(ContextCompat.getColor(this, R.color.rubbish_dry_color));
+                mTextView_result_contain_title.setBackgroundColor(ContextCompat.getColor(this, R.color.rubbish_dry_color));
+                mTextView_result_contain_title.setText(getString(R.string.rubbish_dry_contains_title));
+                mTextView_result_contain_content.setTextColor(ContextCompat.getColor(this, R.color.rubbish_dry_color));
+                mTextView_result_contain_content.setText(getString(R.string.rubbish_dry_contains_content));
+                mTextView_result_categorize_title.setBackgroundColor(ContextCompat.getColor(this, R.color.rubbish_dry_color));
+                mTextView_result_categorize_title.setText(getString(R.string.rubbish_dry_categorize_title));
+                mTextView_result_categorize_content.setTextColor(ContextCompat.getColor(this, R.color.rubbish_dry_color));
+                mTextView_result_categorize_content.setText(getString(R.string.rubbish_dry_categorize_content));
                 break;
             case RUBBISH_WET:
+                mImageview_result_category.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.icon_wet));
                 mTextView_result_category.setText(getString(R.string.rubbish_wet_name));
+                mTextView_result_category.setTextColor(ContextCompat.getColor(this, R.color.rubbish_wet_color));
+                mTextView_result_description.setText(getString(R.string.rubbish_wet_descriptions));
+                mTextView_result_description.setTextColor(ContextCompat.getColor(this, R.color.rubbish_wet_color));
+                mTextView_result_contain_title.setBackgroundColor(ContextCompat.getColor(this, R.color.rubbish_wet_color));
+                mTextView_result_contain_title.setText(getString(R.string.rubbish_wet_contains_title));
+                mTextView_result_contain_content.setTextColor(ContextCompat.getColor(this, R.color.rubbish_wet_color));
+                mTextView_result_contain_content.setText(getString(R.string.rubbish_wet_contains_content));
+                mTextView_result_categorize_title.setBackgroundColor(ContextCompat.getColor(this, R.color.rubbish_wet_color));
+                mTextView_result_categorize_title.setText(getString(R.string.rubbish_wet_categorize_title));
+                mTextView_result_categorize_content.setTextColor(ContextCompat.getColor(this, R.color.rubbish_wet_color));
+                mTextView_result_categorize_content.setText(getString(R.string.rubbish_wet_categorize_content));
                 break;
             case RUBBISH_HARM:
+                mImageview_result_category.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.icon_harm));
                 mTextView_result_category.setText(getString(R.string.rubbish_harm_name));
+                mTextView_result_category.setTextColor(ContextCompat.getColor(this, R.color.rubbish_harm_color));
+                mTextView_result_description.setText(getString(R.string.rubbish_harm_descriptions));
+                mTextView_result_description.setTextColor(ContextCompat.getColor(this, R.color.rubbish_harm_color));
+                mTextView_result_contain_title.setBackgroundColor(ContextCompat.getColor(this, R.color.rubbish_harm_color));
+                mTextView_result_contain_title.setText(getString(R.string.rubbish_harm_contains_title));
+                mTextView_result_contain_content.setTextColor(ContextCompat.getColor(this, R.color.rubbish_harm_color));
+                mTextView_result_contain_content.setText(getString(R.string.rubbish_harm_contains_content));
+                mTextView_result_categorize_title.setBackgroundColor(ContextCompat.getColor(this, R.color.rubbish_harm_color));
+                mTextView_result_categorize_title.setText(getString(R.string.rubbish_harm_categorize_title));
+                mTextView_result_categorize_content.setTextColor(ContextCompat.getColor(this, R.color.rubbish_harm_color));
+                mTextView_result_categorize_content.setText(getString(R.string.rubbish_harm_categorize_content));
                 break;
             case RUBBISH_RECYCLE:
+                mImageview_result_category.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.icon_recycle));
                 mTextView_result_category.setText(getString(R.string.rubbish_recycle_name));
+                mTextView_result_category.setTextColor(ContextCompat.getColor(this, R.color.rubbish_recycle_color));
+                mTextView_result_description.setText(getString(R.string.rubbish_recycle_descriptions));
+                mTextView_result_description.setTextColor(ContextCompat.getColor(this, R.color.rubbish_recycle_color));
+                mTextView_result_contain_title.setBackgroundColor(ContextCompat.getColor(this, R.color.rubbish_recycle_color));
+                mTextView_result_contain_title.setText(getString(R.string.rubbish_recycle_contains_title));
+                mTextView_result_contain_content.setTextColor(ContextCompat.getColor(this, R.color.rubbish_recycle_color));
+                mTextView_result_contain_content.setText(getString(R.string.rubbish_recycle_contains_content));
+                mTextView_result_categorize_title.setBackgroundColor(ContextCompat.getColor(this, R.color.rubbish_recycle_color));
+                mTextView_result_categorize_title.setText(getString(R.string.rubbish_recycle_categorize_title));
+                mTextView_result_categorize_content.setTextColor(ContextCompat.getColor(this, R.color.rubbish_recycle_color));
+                mTextView_result_categorize_content.setText(getString(R.string.rubbish_recycle_categorize_content));
                 break;
             case UNKNOWN:
                 mTextView_result_category.setText(getString(R.string.rubbish_unknown_name));
+                mLinearLayoutResultPart.setVisibility(View.GONE);
                 break;
 
         }
