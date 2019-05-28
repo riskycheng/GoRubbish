@@ -10,6 +10,7 @@ import android.os.Message;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.*;
 import okhttp3.*;
@@ -42,12 +43,17 @@ public class HomeActivity extends Activity {
     private TextView mTextView_result_categorize_content;
     private ImageView mImageview_result_category;
 
+    private ScrollView mScrollViewFull;
+
 
     @SuppressLint("HandlerLeak")
     public Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
+            //hide the method
+            InputMethodManager methodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            methodManager.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
             updateUI((RubbishType) msg.obj);
         }
     };
@@ -80,16 +86,18 @@ public class HomeActivity extends Activity {
         mCategory_recycle.setOnClickListener(new MyClickListener());
         mCategory_wet = findViewById(R.id.category_of_wet);
         mCategory_wet.setOnClickListener(new MyClickListener());
-        
-        
+
+
         //init for the specific result controller
-         mTextView_result_category = findViewById(R.id.result_rubbish_category);
-         mTextView_result_description = findViewById(R.id.result_rubbish_description);
-         mTextView_result_contain_title = findViewById(R.id.result_rubbish_contain_title);
-         mTextView_result_contain_content = findViewById(R.id.result_rubbish_contain_content);
-         mTextView_result_categorize_title = findViewById(R.id.result_rubbish_categorize_title);
-         mTextView_result_categorize_content = findViewById(R.id.result_rubbish_categorize_content);
-         mImageview_result_category = findViewById(R.id.result_rubbish_image);
+        mTextView_result_category = findViewById(R.id.result_rubbish_category);
+        mTextView_result_description = findViewById(R.id.result_rubbish_description);
+        mTextView_result_contain_title = findViewById(R.id.result_rubbish_contain_title);
+        mTextView_result_contain_content = findViewById(R.id.result_rubbish_contain_content);
+        mTextView_result_categorize_title = findViewById(R.id.result_rubbish_categorize_title);
+        mTextView_result_categorize_content = findViewById(R.id.result_rubbish_categorize_content);
+        mImageview_result_category = findViewById(R.id.result_rubbish_image);
+
+        mScrollViewFull = findViewById(R.id.scrollview_full);
     }
 
 
@@ -135,9 +143,6 @@ public class HomeActivity extends Activity {
 
         mLinearLayoutResultPart.setVisibility(View.VISIBLE);
         mLinearLayoutCategories.setVisibility(View.GONE);
-        //hide the method
-        InputMethodManager methodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        methodManager.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
 
         switch (rubbishType) {
             case RUBBISH_DRY:
@@ -259,18 +264,81 @@ public class HomeActivity extends Activity {
                     break;
                 case R.id.category_of_dry:
                     Log.d(TAG, "trigger descriptions of dry rubbish");
+                    resetOtherCategoryToNormalAnim();
+                    //visualize the result
+                    mLinearLayoutResultPart.setVisibility(View.VISIBLE);
+                    mCategory_dry.animate()
+                            .scaleX(1.2f)
+                            .scaleY(1.2f)
+                            .setInterpolator(new AccelerateDecelerateInterpolator()).
+                            setDuration(1L).start();
+                    updateUI(RubbishType.RUBBISH_DRY);
+                    mLinearLayoutCategories.setVisibility(View.VISIBLE);
                     break;
                 case R.id.category_of_harm:
                     Log.d(TAG, "trigger descriptions of harm rubbish");
+                    resetOtherCategoryToNormalAnim();
+                    //visualize the result
+                    mLinearLayoutResultPart.setVisibility(View.VISIBLE);
+                    mCategory_harm.animate()
+                            .scaleX(1.2f)
+                            .scaleY(1.2f)
+                            .setInterpolator(new AccelerateDecelerateInterpolator()).
+                            setDuration(1L).start();
+
+                    updateUI(RubbishType.RUBBISH_DRY);
+                    mLinearLayoutCategories.setVisibility(View.VISIBLE);
                     break;
                 case R.id.category_of_recycle:
                     Log.d(TAG, "trigger descriptions of recycle rubbish");
+                    resetOtherCategoryToNormalAnim();
+                    //visualize the result
+                    mLinearLayoutResultPart.setVisibility(View.VISIBLE);
+                    mCategory_recycle.animate()
+                            .scaleX(1.2f)
+                            .scaleY(1.2f)
+                            .setInterpolator(new AccelerateDecelerateInterpolator()).
+                            setDuration(1L).start();
+
+                    updateUI(RubbishType.RUBBISH_RECYCLE);
+                    mLinearLayoutCategories.setVisibility(View.VISIBLE);
                     break;
                 case R.id.category_of_wet:
                     Log.d(TAG, "trigger descriptions of wet rubbish");
+                    resetOtherCategoryToNormalAnim();
+                    //visualize the result
+                    mLinearLayoutResultPart.setVisibility(View.VISIBLE);
+                    mCategory_wet.animate()
+                            .scaleX(1.2f)
+                            .scaleY(1.2f)
+                            .setInterpolator(new AccelerateDecelerateInterpolator()).
+                            setDuration(1L).start();
+
+                    updateUI(RubbishType.RUBBISH_WET);
+                    mLinearLayoutCategories.setVisibility(View.VISIBLE);
                     break;
             }
         }
+    }
+
+
+    private void resetOtherCategoryToNormalAnim() {
+        mCategory_dry.animate()
+                .scaleX(1.0f)
+                .scaleY(1.0f)
+                .setInterpolator(new AccelerateDecelerateInterpolator()).start();
+        mCategory_harm.animate()
+                .scaleX(1.0f)
+                .scaleY(1.0f)
+                .setInterpolator(new AccelerateDecelerateInterpolator()).start();
+        mCategory_recycle.animate()
+                .scaleX(1.0f)
+                .scaleY(1.0f)
+                .setInterpolator(new AccelerateDecelerateInterpolator()).start();
+        mCategory_wet.animate()
+                .scaleX(1.0f)
+                .scaleY(1.0f)
+                .setInterpolator(new AccelerateDecelerateInterpolator()).start();
     }
 
 }
