@@ -286,7 +286,7 @@ public class HomeActivity extends Activity {
                             .setInterpolator(new AccelerateDecelerateInterpolator()).
                             setDuration(1L).start();
 
-                    updateUI(RubbishType.RUBBISH_DRY);
+                    updateUI(RubbishType.RUBBISH_HARM);
                     mLinearLayoutCategories.setVisibility(View.VISIBLE);
                     break;
                 case R.id.category_of_recycle:
