@@ -124,7 +124,7 @@ public class HomeActivity extends Activity {
 
         pDialog = new SweetAlertDialog(HomeActivity.this, SweetAlertDialog.PROGRESS_TYPE);
         pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
-        pDialog.setTitleText(getString(R.string.loading));
+        pDialog.setTitleText(getString(R.string.querying_loading));
         pDialog.setCancelable(true);
         pDialog.show();
 
@@ -178,7 +178,7 @@ public class HomeActivity extends Activity {
                     }
                 });
             }
-        }, 2000);
+        }, 1000);
 
     }
 

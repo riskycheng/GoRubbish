@@ -41,9 +41,9 @@
 
 
     <!-- sth about the http requests -->
-    <string name="network_error">网络连接错误!</string>
+    <string name="network_error">请检查网络，稍后再试!</string>
     <string name="i_know">知道了</string>
-    <string name="loading">正在查询...</string>
+    <string name="querying_loading">正在查询...</string>
 
 
     <string name="rubbish_copyright">数据来源@上海公共信息发布平台2019</string>
