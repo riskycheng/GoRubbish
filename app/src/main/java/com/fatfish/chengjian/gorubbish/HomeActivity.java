@@ -3,9 +3,11 @@ package com.fatfish.chengjian.gorubbish;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.media.Image;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
@@ -13,7 +15,9 @@ import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.*;
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import okhttp3.*;
+import okio.Timeout;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -21,6 +25,7 @@ import org.jsoup.select.Elements;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import static com.chengjian.utils.GlobalConstants.REQUEST_URL;
 
@@ -45,16 +50,28 @@ public class HomeActivity extends Activity {
 
     private ScrollView mScrollViewFull;
 
+    private final int UPDATE_RESULT_MSG = 0;
+    private final int SHOW_QUERYING_DIALOG = 1;
+    private final int DISMISS_QUERY_DIALOG = 2;
+
+    SweetAlertDialog pDialog = null;
 
     @SuppressLint("HandlerLeak")
     public Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            //hide the method
-            InputMethodManager methodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-            methodManager.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
-            updateUI((RubbishType) msg.obj);
+            switch (msg.what) {
+                case UPDATE_RESULT_MSG:
+                    if (pDialog.isShowing())
+                        pDialog.cancel();
+                    updateUI((RubbishType) msg.obj);
+                    break;
+                case DISMISS_QUERY_DIALOG:
+                    if (pDialog.isShowing())
+                        pDialog.cancel();
+                    break;
+            }
         }
     };
 
@@ -98,36 +115,71 @@ public class HomeActivity extends Activity {
         mImageview_result_category = findViewById(R.id.result_rubbish_image);
 
         mScrollViewFull = findViewById(R.id.scrollview_full);
+
+
     }
 
 
     public void requestForResult(String keyWords) {
+
+        pDialog = new SweetAlertDialog(HomeActivity.this, SweetAlertDialog.PROGRESS_TYPE);
+        pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
+        pDialog.setTitleText(getString(R.string.loading));
+        pDialog.setCancelable(true);
+        pDialog.show();
+
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                .connectTimeout(5 * 1000, TimeUnit.MILLISECONDS)
+                .readTimeout(2 * 1000, TimeUnit.MILLISECONDS)
+                .writeTimeout(2 * 1000, TimeUnit.MILLISECONDS)
                 .build();
         Request request = new Request.Builder()
                 .url(REQUEST_URL + keyWords)
                 .header("User-Agent", "OkHttp Example")
                 .build();
-        okHttpClient.newCall(request).enqueue(new Callback() {
+        new Handler().postDelayed(new Runnable() {
             @Override
-            public void onFailure(Call call, IOException e) {
-                Log.d(TAG, "onFailure: " + e.getMessage());
-            }
+            public void run() {
+                okHttpClient.newCall(request).enqueue(new Callback() {
+                    @Override
+                    public void onFailure(Call call, IOException e) {
+                        Log.d(TAG, "onFailure: " + e.getMessage());
+                        Message msg_dismissDialog = Message.obtain(handler);
+                        msg_dismissDialog.what = DISMISS_QUERY_DIALOG;
+                        msg_dismissDialog.sendToTarget();
+                        //remind that the connect is not successful
+                        Looper.prepare();
+                        SweetAlertDialog failDialog = new SweetAlertDialog(HomeActivity.this, SweetAlertDialog.ERROR_TYPE);
+                        failDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
+                        failDialog.setTitleText(getString(R.string.network_error));
+                        failDialog.setCancelable(true);
+                        failDialog.setCancelText(getString(R.string.i_know));
+                        failDialog.show();
+                        Looper.loop();
+                    }
 
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                ResponseBody body = response.body();
-                if (body != null) {
-                    RubbishType rubbishType = parseCategoryWithHttpResult(body.string());
-                    Log.d(TAG, "rubbish type is " + rubbishType);
-                    //update the UI according to the result type
-                    Message msg = Message.obtain(handler);
-                    msg.obj = rubbishType;
-                    msg.sendToTarget();
-                    body.close();
-                }
+                    @Override
+                    public void onResponse(Call call, Response response) throws IOException {
+                        ResponseBody body = response.body();
+                        if (body != null) {
+                            RubbishType rubbishType = parseCategoryWithHttpResult(body.string());
+                            Log.d(TAG, "rubbish type is " + rubbishType);
+                            //update the UI according to the result type
+                            Message msg = Message.obtain(handler);
+                            msg.obj = rubbishType;
+                            msg.sendToTarget();
+                            body.close();
+                        } else {
+                            //at least, we need to release the dialog
+                            Message msg_dismissDialog = Message.obtain(handler);
+                            msg_dismissDialog.what = DISMISS_QUERY_DIALOG;
+                            msg_dismissDialog.sendToTarget();
+                        }
+                    }
+                });
             }
-        });
+        }, 2000);
+
     }
 
     enum RubbishType {
