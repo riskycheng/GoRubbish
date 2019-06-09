@@ -55,5 +55,8 @@
     <string name="demo_description_2">个人混合投放垃圾，今后最高可罚200元，\n单位混装混运，最高可罚5万元！</string>
     <string name="demo_description_3">餐饮外卖不能主动提供一次性餐具，大家快一起来学习垃圾分类知识，避免不小心被罚款哦~</string>
 
+    <string name="app_title">垃圾分类手册</string>
+    <string name="app_description">垃圾分类，从我做起，让城市更美好！</string>
+
     <string name="rubbish_copyright">数据来源@上海公共信息发布平台2019</string>
 </resources>

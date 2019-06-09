@@ -2,6 +2,7 @@ package com.fatfish.chengjian.gorubbish;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -19,7 +20,11 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.BitSet;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -57,6 +62,9 @@ public class HomeActivity extends Activity {
     private final int DISMISS_QUERY_DIALOG = 2;
 
     SweetAlertDialog pDialog = null;
+
+    private String mRubbishName = null;
+    private RubbishType mRubbishType = null;
 
     @SuppressLint("HandlerLeak")
     public Handler handler = new Handler() {
@@ -132,6 +140,9 @@ public class HomeActivity extends Activity {
 
     public void requestForResult(String keyWords) {
 
+        //update the keywords
+        mRubbishName = keyWords;
+
         pDialog = new SweetAlertDialog(HomeActivity.this, SweetAlertDialog.PROGRESS_TYPE);
         pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
         pDialog.setTitleText(getString(R.string.querying_loading));
@@ -197,6 +208,9 @@ public class HomeActivity extends Activity {
 
 
     public void updateUI(RubbishType rubbishType) {
+
+        //update the rubbish type
+        mRubbishType = rubbishType;
 
         mLinearLayoutResultPart.setVisibility(View.VISIBLE);
         mLinearLayoutCategories.setVisibility(View.GONE);
@@ -388,6 +402,13 @@ public class HomeActivity extends Activity {
                     resetOtherCategoryToNormalAnim();
                     break;
                 case R.id.btn_share:
+                    ShareView shareView = new ShareView(HomeActivity.this, mRubbishName, mRubbishType);
+                    final Bitmap bitmapForShare = shareView.createImage();
+                    String savedPath = saveImage( bitmapForShare, ".");
+                    Log.d(TAG, "saved to ==> " + savedPath);
+                    if (bitmapForShare != null && !bitmapForShare.isRecycled()) {
+                        bitmapForShare.recycle();
+                    }
                     break;
             }
         }
@@ -413,4 +434,38 @@ public class HomeActivity extends Activity {
                 .setInterpolator(new AccelerateDecelerateInterpolator()).start();
     }
 
+
+    /**
+     * used for saving images
+     *
+     * @param bitmap
+     * @return
+     */
+    private String saveImage(Bitmap bitmap, String savePath) {
+
+        File path = getCacheDir();
+
+        String fileName = savePath + "/shareImage.png";
+
+        File file = new File(path, fileName);
+
+        if (file.exists()) {
+            file.delete();
+        }
+
+        FileOutputStream fos = null;
+
+        try {
+            fos = new FileOutputStream(file);
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
+            fos.flush();
+            fos.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return file.getAbsolutePath();
+    }
 }
