@@ -32,7 +32,7 @@
     <string name="rubbish_recycle_descriptions">适宜回收利用和资源化利 用的，如：玻、金、塑、 纸、衣</string>
     <string name="rubbish_recycle_contains_title">可回收物主要包括</string>
     <string name="rubbish_recycle_contains_content">酱油瓶、玻璃杯、平板玻璃、易拉罐、饮料瓶、 洗发水瓶、塑料玩具、书本、报纸、广告单、 纸板箱、衣服、床上用品等</string>
-    <string name="rubbish_recycle_categorize_title">有害垃圾投放要求</string>
+    <string name="rubbish_recycle_categorize_title">可回收物投放要求</string>
     <string name="rubbish_recycle_categorize_content">轻投轻放\n清洁干燥，避免污染\n废纸尽量平整\n立体包装物请清空内容物，清洁后压扁投放\n有尖锐边角的，应包裹后投放</string>
 
     <string name="rubbish_unknown_name">未知</string>
@@ -45,6 +45,15 @@
     <string name="i_know">知道了</string>
     <string name="querying_loading">正在查询...</string>
 
+
+    <string name="back">返\t\t回</string>
+    <string name="share_to_friends">告诉朋友</string>
+
+    <string name="practice">练习一下</string>
+    <string name="demo_description">想让上海的生活环境更好，垃圾自然是需要严格进行管理的。而今年开始，上海将会更加干净！</string>
+    <string name="demo_description_1">&lt;&lt;上海市生活垃圾管理条例&gt;&gt; \n将于2019年7月1日正式实施！</string>
+    <string name="demo_description_2">个人混合投放垃圾，今后最高可罚200元，\n单位混装混运，最高可罚5万元！</string>
+    <string name="demo_description_3">餐饮外卖不能主动提供一次性餐具，大家快一起来学习垃圾分类知识，避免不小心被罚款哦~</string>
 
     <string name="rubbish_copyright">数据来源@上海公共信息发布平台2019</string>
 </resources>

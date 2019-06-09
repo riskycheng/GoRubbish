@@ -2,9 +2,7 @@ package com.fatfish.chengjian.gorubbish;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.Context;
 import android.graphics.Color;
-import android.media.Image;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -13,11 +11,9 @@ import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.*;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import okhttp3.*;
-import okio.Timeout;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -38,6 +34,7 @@ public class HomeActivity extends Activity {
     private LinearLayout mLinearLayoutCategories = null;
     private ImageView mCategory_recycle = null, mCategory_dry = null, mCategory_wet = null, mCategory_harm = null;
     private LinearLayout mLinearLayoutResultPart = null;
+    private LinearLayout mLinearLayoutDemoPart = null;
 
     //the specific fields for the result
     private TextView mTextView_result_category;
@@ -49,6 +46,11 @@ public class HomeActivity extends Activity {
     private ImageView mImageview_result_category;
 
     private ScrollView mScrollViewFull;
+
+    private LinearLayout mLinearButtonsBackShare = null;
+    // the back and share button
+    private Button mBtnBack = null;
+    private Button mBtnShare = null;
 
     private final int UPDATE_RESULT_MSG = 0;
     private final int SHOW_QUERYING_DIALOG = 1;
@@ -94,6 +96,8 @@ public class HomeActivity extends Activity {
         mLinearLayoutCategories.setVisibility(View.VISIBLE);
         mLinearLayoutResultPart = findViewById(R.id.result_part);
         mLinearLayoutResultPart.setVisibility(View.GONE);
+        mLinearLayoutDemoPart = findViewById(R.id.demo_part);
+        mLinearLayoutDemoPart.setVisibility(View.VISIBLE);
 
         mCategory_dry = findViewById(R.id.category_of_dry);
         mCategory_dry.setOnClickListener(new MyClickListener());
@@ -115,7 +119,13 @@ public class HomeActivity extends Activity {
         mImageview_result_category = findViewById(R.id.result_rubbish_image);
 
         mScrollViewFull = findViewById(R.id.scrollview_full);
+        mLinearButtonsBackShare = findViewById(R.id.linear_buttons_back_share);
 
+        //initialize the buttons
+        mBtnBack = findViewById(R.id.btn_back);
+        mBtnBack.setOnClickListener(new MyClickListener());
+        mBtnShare = findViewById(R.id.btn_share);
+        mBtnShare.setOnClickListener(new MyClickListener());
 
     }
 
@@ -137,48 +147,43 @@ public class HomeActivity extends Activity {
                 .url(REQUEST_URL + keyWords)
                 .header("User-Agent", "OkHttp Example")
                 .build();
-        new Handler().postDelayed(new Runnable() {
+        new Handler().postDelayed(() -> okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
-            public void run() {
-                okHttpClient.newCall(request).enqueue(new Callback() {
-                    @Override
-                    public void onFailure(Call call, IOException e) {
-                        Log.d(TAG, "onFailure: " + e.getMessage());
-                        Message msg_dismissDialog = Message.obtain(handler);
-                        msg_dismissDialog.what = DISMISS_QUERY_DIALOG;
-                        msg_dismissDialog.sendToTarget();
-                        //remind that the connect is not successful
-                        Looper.prepare();
-                        SweetAlertDialog failDialog = new SweetAlertDialog(HomeActivity.this, SweetAlertDialog.ERROR_TYPE);
-                        failDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
-                        failDialog.setTitleText(getString(R.string.network_error));
-                        failDialog.setCancelable(true);
-                        failDialog.setCancelText(getString(R.string.i_know));
-                        failDialog.show();
-                        Looper.loop();
-                    }
-
-                    @Override
-                    public void onResponse(Call call, Response response) throws IOException {
-                        ResponseBody body = response.body();
-                        if (body != null) {
-                            RubbishType rubbishType = parseCategoryWithHttpResult(body.string());
-                            Log.d(TAG, "rubbish type is " + rubbishType);
-                            //update the UI according to the result type
-                            Message msg = Message.obtain(handler);
-                            msg.obj = rubbishType;
-                            msg.sendToTarget();
-                            body.close();
-                        } else {
-                            //at least, we need to release the dialog
-                            Message msg_dismissDialog = Message.obtain(handler);
-                            msg_dismissDialog.what = DISMISS_QUERY_DIALOG;
-                            msg_dismissDialog.sendToTarget();
-                        }
-                    }
-                });
+            public void onFailure(Call call, IOException e) {
+                Log.d(TAG, "onFailure: " + e.getMessage());
+                Message msg_dismissDialog = Message.obtain(handler);
+                msg_dismissDialog.what = DISMISS_QUERY_DIALOG;
+                msg_dismissDialog.sendToTarget();
+                //remind that the connect is not successful
+                Looper.prepare();
+                SweetAlertDialog failDialog = new SweetAlertDialog(HomeActivity.this, SweetAlertDialog.ERROR_TYPE);
+                failDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
+                failDialog.setTitleText(getString(R.string.network_error));
+                failDialog.setCancelable(true);
+                failDialog.setCancelText(getString(R.string.i_know));
+                failDialog.show();
+                Looper.loop();
             }
-        }, 1000);
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                ResponseBody body = response.body();
+                if (body != null) {
+                    RubbishType rubbishType = parseCategoryWithHttpResult(body.string());
+                    Log.d(TAG, "rubbish type is " + rubbishType);
+                    //update the UI according to the result type
+                    Message msg = Message.obtain(handler);
+                    msg.obj = rubbishType;
+                    msg.sendToTarget();
+                    body.close();
+                } else {
+                    //at least, we need to release the dialog
+                    Message msg_dismissDialog = Message.obtain(handler);
+                    msg_dismissDialog.what = DISMISS_QUERY_DIALOG;
+                    msg_dismissDialog.sendToTarget();
+                }
+            }
+        }), 1000);
 
     }
 
@@ -261,8 +266,8 @@ public class HomeActivity extends Activity {
                 mTextView_result_category.setText(getString(R.string.rubbish_unknown_name));
                 mLinearLayoutResultPart.setVisibility(View.GONE);
                 break;
-
         }
+        mScrollViewFull.post(() -> mScrollViewFull.smoothScrollTo(0, mLinearButtonsBackShare.getBottom()));
     }
 
 
@@ -326,6 +331,7 @@ public class HomeActivity extends Activity {
                             setDuration(1L).start();
                     updateUI(RubbishType.RUBBISH_DRY);
                     mLinearLayoutCategories.setVisibility(View.VISIBLE);
+                    mLinearLayoutDemoPart.setVisibility(View.GONE);
                     break;
                 case R.id.category_of_harm:
                     Log.d(TAG, "trigger descriptions of harm rubbish");
@@ -340,6 +346,7 @@ public class HomeActivity extends Activity {
 
                     updateUI(RubbishType.RUBBISH_HARM);
                     mLinearLayoutCategories.setVisibility(View.VISIBLE);
+                    mLinearLayoutDemoPart.setVisibility(View.GONE);
                     break;
                 case R.id.category_of_recycle:
                     Log.d(TAG, "trigger descriptions of recycle rubbish");
@@ -354,6 +361,7 @@ public class HomeActivity extends Activity {
 
                     updateUI(RubbishType.RUBBISH_RECYCLE);
                     mLinearLayoutCategories.setVisibility(View.VISIBLE);
+                    mLinearLayoutDemoPart.setVisibility(View.GONE);
                     break;
                 case R.id.category_of_wet:
                     Log.d(TAG, "trigger descriptions of wet rubbish");
@@ -368,6 +376,18 @@ public class HomeActivity extends Activity {
 
                     updateUI(RubbishType.RUBBISH_WET);
                     mLinearLayoutCategories.setVisibility(View.VISIBLE);
+                    mLinearLayoutDemoPart.setVisibility(View.GONE);
+                    break;
+
+                //the buttons
+                case R.id.btn_back:
+                    //hide the result page and show the linear array
+                    mLinearLayoutCategories.setVisibility(View.VISIBLE);
+                    mLinearLayoutDemoPart.setVisibility(View.VISIBLE);
+                    mLinearLayoutResultPart.setVisibility(View.GONE);
+                    resetOtherCategoryToNormalAnim();
+                    break;
+                case R.id.btn_share:
                     break;
             }
         }
