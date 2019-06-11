@@ -2,12 +2,14 @@ package com.fatfish.chengjian.gorubbish;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.ComponentName;
+import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
-import android.os.Message;
+import android.graphics.Matrix;
+import android.net.Uri;
+import android.os.*;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
@@ -89,6 +91,9 @@ public class HomeActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+        StrictMode.setVmPolicy(builder.build());
+        builder.detectFileUriExposure();
         setContentView(R.layout.activity_main);
         init();
     }
@@ -406,6 +411,8 @@ public class HomeActivity extends Activity {
                     final Bitmap bitmapForShare = shareView.createImage();
                     String savedPath = saveImage( bitmapForShare, ".");
                     Log.d(TAG, "saved to ==> " + savedPath);
+                    //share to timeline
+                    shareToTimeLine(new File("/sdcard/img.jpg"));
                     if (bitmapForShare != null && !bitmapForShare.isRecycled()) {
                         bitmapForShare.recycle();
                     }
@@ -445,7 +452,7 @@ public class HomeActivity extends Activity {
 
         File path = getCacheDir();
 
-        String fileName = savePath + "/shareImage.png";
+        String fileName = savePath + "/shareImage.jpg";
 
         File file = new File(path, fileName);
 
@@ -454,10 +461,16 @@ public class HomeActivity extends Activity {
         }
 
         FileOutputStream fos = null;
-
+        Bitmap resBitmap = null;
         try {
             fos = new FileOutputStream(file);
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
+            // downsize first
+            Matrix matrix = new Matrix();
+            matrix.setScale(0.4f, 0.4f);
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inSampleSize = 2;
+            resBitmap = Bitmap.createBitmap(bitmap, 0, 0, ShareView.IMAGE_WIDTH, ShareView.IMAGE_HEIGHT, matrix, true);
+            resBitmap.compress(Bitmap.CompressFormat.JPEG, 70, fos);
             fos.flush();
             fos.close();
         } catch (FileNotFoundException e) {
@@ -465,7 +478,70 @@ public class HomeActivity extends Activity {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        if (bitmap != null && !bitmap.isRecycled())
+            bitmap.recycle();
+        if (resBitmap != null && !resBitmap.isRecycled())
+            resBitmap.recycle();
 
         return file.getAbsolutePath();
     }
+
+
+    /**
+     * 分享信息到朋友圈
+     *
+     * @param file
+     *            ，假如图片的路径为path，那么file = new File(path);
+     */
+    private void shareToTimeLine(File file) {
+        Intent intent = new Intent();
+        ComponentName componentName = new ComponentName("com.tencent.mm", "com.tencent.mm.ui.tools.ShareToTimeLineUI");
+        intent.setComponent(componentName);
+
+        intent.setAction(Intent.ACTION_SEND);
+        intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(file));
+
+        // intent.setAction(android.content.Intent.ACTION_SEND_MULTIPLE);
+        // ArrayList<Uri> uris = new ArrayList<Uri>();
+        // for (int i = 0; i < images.size(); i++) {
+        // Uri data = Uri.fromFile(new File(thumbPaths.get(i)));
+        // uris.add(data);
+        // }
+        // intent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uris);
+
+        intent.setType("image/*");
+
+        startActivity(intent);
+    }
+
+
+    /**
+     * 分享信息到朋友
+     *
+     */
+    private void shareToWxFriend() {
+        Intent intent = new Intent();
+        ComponentName componentName = new ComponentName("com.tencent.mm", "com.tencent.mm.ui.tools.ShareImgUI");
+        intent.setComponent(componentName);
+        intent.setAction(Intent.ACTION_SEND);
+        intent.setType("text/*");
+        intent.putExtra(Intent.EXTRA_TEXT, "这是分享内容");
+        intent.putExtra(Intent.EXTRA_STREAM, "http://www.weixin.com");
+        startActivity(intent);
+    }
+
+    /**
+     * 分享到QQ好友
+     *
+     */
+    private void shareToQQFriend() {
+        Intent intent = new Intent();
+        ComponentName componentName = new ComponentName("com.tencent.mobileqq", "com.tencent.mobileqq.activity.JumpActivity");
+        intent.setComponent(componentName);
+        intent.setAction(Intent.ACTION_SEND);
+        intent.setType("text/*");
+        intent.putExtra(Intent.EXTRA_TEXT, "这是分享内容");
+        startActivity(intent);
+    }
+
 }

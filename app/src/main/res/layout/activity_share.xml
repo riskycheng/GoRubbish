@@ -3,7 +3,7 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="1080px"
-        android:layout_height="2300px"
+        android:layout_height="2200px"
         android:orientation="vertical"
         android:background="@color/white"
         tools:context=".HomeActivity">
@@ -111,10 +111,10 @@
 
 
             <!-- the app icon and names -->
-            <FrameLayout
+            <RelativeLayout
+                    android:layout_marginTop="160px"
                     android:layout_marginStart="20dp"
                     android:layout_marginLeft="20dp"
-                    android:layout_marginTop="20dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
             <ImageView
@@ -139,7 +139,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/app_description"/>
 
-            </FrameLayout>
+            </RelativeLayout>
 
         </LinearLayout>
     </ScrollView>

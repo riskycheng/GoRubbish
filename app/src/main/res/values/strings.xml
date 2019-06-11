@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">GoRubbish</string>
+    <string name="app_name">垃圾分类手册</string>
 
     <string name="search">搜\t\t索</string>
     <string name="search_keywords_hint">检索关键词</string>
