@@ -2,8 +2,8 @@
 <FrameLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="1080px"
-        android:layout_height="2200px"
+        android:layout_width="1440px"
+        android:layout_height="3000px"
         android:orientation="vertical"
         android:background="@color/white"
         tools:context=".HomeActivity">

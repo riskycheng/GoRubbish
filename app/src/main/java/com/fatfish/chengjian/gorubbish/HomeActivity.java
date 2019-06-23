@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.*;
 import cn.pedant.SweetAlert.SweetAlertDialog;
+import com.chengjian.utils.GlobalConstants;
 import okhttp3.*;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -95,6 +96,7 @@ public class HomeActivity extends Activity {
         StrictMode.setVmPolicy(builder.build());
         builder.detectFileUriExposure();
         setContentView(R.layout.activity_main);
+        GlobalConstants.verifyStoragePermissions(this);
         init();
     }
 
@@ -409,10 +411,10 @@ public class HomeActivity extends Activity {
                 case R.id.btn_share:
                     ShareView shareView = new ShareView(HomeActivity.this, mRubbishName, mRubbishType);
                     final Bitmap bitmapForShare = shareView.createImage();
-                    String savedPath = saveImage( bitmapForShare, ".");
+                    String savedPath = saveImage(bitmapForShare, GlobalConstants.getSharedImagePath());
                     Log.d(TAG, "saved to ==> " + savedPath);
                     //share to timeline
-                    shareToTimeLine(new File("/sdcard/img.jpg"));
+                    shareToTimeLine(new File(savedPath));
                     if (bitmapForShare != null && !bitmapForShare.isRecycled()) {
                         bitmapForShare.recycle();
                     }
@@ -450,11 +452,7 @@ public class HomeActivity extends Activity {
      */
     private String saveImage(Bitmap bitmap, String savePath) {
 
-        File path = getCacheDir();
-
-        String fileName = savePath + "/shareImage.jpg";
-
-        File file = new File(path, fileName);
+        File file = new File(savePath);
 
         if (file.exists()) {
             file.delete();
@@ -466,11 +464,11 @@ public class HomeActivity extends Activity {
             fos = new FileOutputStream(file);
             // downsize first
             Matrix matrix = new Matrix();
-            matrix.setScale(0.4f, 0.4f);
+            matrix.setScale(0.6f, 0.6f);
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.inSampleSize = 2;
             resBitmap = Bitmap.createBitmap(bitmap, 0, 0, ShareView.IMAGE_WIDTH, ShareView.IMAGE_HEIGHT, matrix, true);
-            resBitmap.compress(Bitmap.CompressFormat.JPEG, 70, fos);
+            resBitmap.compress(Bitmap.CompressFormat.JPEG, 80, fos);
             fos.flush();
             fos.close();
         } catch (FileNotFoundException e) {
@@ -490,8 +488,7 @@ public class HomeActivity extends Activity {
     /**
      * 分享信息到朋友圈
      *
-     * @param file
-     *            ，假如图片的路径为path，那么file = new File(path);
+     * @param file ，假如图片的路径为path，那么file = new File(path);
      */
     private void shareToTimeLine(File file) {
         Intent intent = new Intent();
@@ -510,14 +507,17 @@ public class HomeActivity extends Activity {
         // intent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uris);
 
         intent.setType("image/*");
-
-        startActivity(intent);
+        try {
+            startActivity(intent);
+        } catch (Exception e) {
+            Log.e(TAG, "wechat not installed!");
+            Toast.makeText(this, "wechat not installed!", Toast.LENGTH_LONG).show();
+        }
     }
 
 
     /**
      * 分享信息到朋友
-     *
      */
     private void shareToWxFriend() {
         Intent intent = new Intent();
@@ -527,12 +527,16 @@ public class HomeActivity extends Activity {
         intent.setType("text/*");
         intent.putExtra(Intent.EXTRA_TEXT, "这是分享内容");
         intent.putExtra(Intent.EXTRA_STREAM, "http://www.weixin.com");
-        startActivity(intent);
+        try {
+            startActivity(intent);
+        } catch (Exception e) {
+            Log.e(TAG, "wechat not installed!");
+            Toast.makeText(this, "wechat not installed!", Toast.LENGTH_LONG).show();
+        }
     }
 
     /**
      * 分享到QQ好友
-     *
      */
     private void shareToQQFriend() {
         Intent intent = new Intent();
@@ -541,7 +545,12 @@ public class HomeActivity extends Activity {
         intent.setAction(Intent.ACTION_SEND);
         intent.setType("text/*");
         intent.putExtra(Intent.EXTRA_TEXT, "这是分享内容");
-        startActivity(intent);
+        try {
+            startActivity(intent);
+        } catch (Exception e) {
+            Log.e(TAG, "QQ not installed!");
+            Toast.makeText(this, "QQ not installed!", Toast.LENGTH_LONG).show();
+        }
     }
 
 }

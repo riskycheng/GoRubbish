@@ -10,8 +10,8 @@ import android.widget.*;
 public class ShareView extends FrameLayout {
     private String mName = null;
 
-    public static final int IMAGE_WIDTH = 1080;
-    public static final int IMAGE_HEIGHT = 2200;
+    public static final int IMAGE_WIDTH = 1440;
+    public static final int IMAGE_HEIGHT = 3000;
 
     private HomeActivity.RubbishType mType = null;
 
