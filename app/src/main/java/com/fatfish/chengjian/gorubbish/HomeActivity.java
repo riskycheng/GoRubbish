@@ -60,6 +60,9 @@ public class HomeActivity extends Activity {
     private Button mBtnBack = null;
     private Button mBtnShare = null;
 
+    private Button mBtnPractice = null;
+    private Button mBtnShareWithResult = null;
+
     private final int UPDATE_RESULT_MSG = 0;
     private final int SHOW_QUERYING_DIALOG = 1;
     private final int DISMISS_QUERY_DIALOG = 2;
@@ -137,10 +140,15 @@ public class HomeActivity extends Activity {
         mLinearButtonsBackShare = findViewById(R.id.linear_buttons_back_share);
 
         //initialize the buttons
-        mBtnBack = findViewById(R.id.btn_back);
+        mBtnBack = findViewById(R.id.btn_back_result);
         mBtnBack.setOnClickListener(new MyClickListener());
-        mBtnShare = findViewById(R.id.btn_share);
+        mBtnShare = findViewById(R.id.btn_share_app);
         mBtnShare.setOnClickListener(new MyClickListener());
+
+        mBtnPractice = findViewById(R.id.btn_practice);
+        mBtnPractice.setOnClickListener(new MyClickListener());
+        mBtnShareWithResult = findViewById(R.id.btn_share_result);
+        mBtnShareWithResult.setOnClickListener(new MyClickListener());
 
     }
 
@@ -205,7 +213,7 @@ public class HomeActivity extends Activity {
 
     }
 
-    enum RubbishType {
+    public enum RubbishType {
         RUBBISH_DRY,
         RUBBISH_WET,
         RUBBISH_HARM,
@@ -401,14 +409,24 @@ public class HomeActivity extends Activity {
                     break;
 
                 //the buttons
-                case R.id.btn_back:
+                case R.id.btn_practice:
+                    Intent intent = new Intent();
+                    intent.setClass(HomeActivity.this, LearnActivity.class);
+                    startActivity(intent);
+                    break;
+
+                case R.id.btn_share_app:
+                    break;
+
+
+                case R.id.btn_back_result:
                     //hide the result page and show the linear array
                     mLinearLayoutCategories.setVisibility(View.VISIBLE);
                     mLinearLayoutDemoPart.setVisibility(View.VISIBLE);
                     mLinearLayoutResultPart.setVisibility(View.GONE);
                     resetOtherCategoryToNormalAnim();
                     break;
-                case R.id.btn_share:
+                case R.id.btn_share_result:
                     ShareView shareView = new ShareView(HomeActivity.this, mRubbishName, mRubbishType);
                     final Bitmap bitmapForShare = shareView.createImage();
                     String savedPath = saveImage(bitmapForShare, GlobalConstants.getSharedImagePath());

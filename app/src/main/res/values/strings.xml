@@ -11,7 +11,8 @@
     <string name="rubbish_wet_contains_title">湿垃圾主要包括</string>
     <string name="rubbish_wet_contains_content">剩菜剩饭、瓜皮果核、花卉绿植、过期食品等</string>
     <string name="rubbish_wet_categorize_title">湿垃圾投放要求</string>
-    <string name="rubbish_wet_categorize_content">纯流质的食物垃圾，如牛奶等，应直接倒进下水口\n有包装物的湿垃圾应将包装物去除后分类投放，包装物请投放到对应的可回收物或干垃圾容器</string>
+    <string name="rubbish_wet_categorize_content">纯流质的食物垃圾，如牛奶等，应直接倒进下水口\n有包装物的湿垃圾应将包装物去除后分类投放，包装物请投放到对应的可回收物或干垃圾容器
+    </string>
 
 
     <string name="rubbish_dry_name">干垃圾</string>
@@ -33,11 +34,10 @@
     <string name="rubbish_recycle_contains_title">可回收物主要包括</string>
     <string name="rubbish_recycle_contains_content">酱油瓶、玻璃杯、平板玻璃、易拉罐、饮料瓶、 洗发水瓶、塑料玩具、书本、报纸、广告单、 纸板箱、衣服、床上用品等</string>
     <string name="rubbish_recycle_categorize_title">可回收物投放要求</string>
-    <string name="rubbish_recycle_categorize_content">轻投轻放\n清洁干燥，避免污染\n废纸尽量平整\n立体包装物请清空内容物，清洁后压扁投放\n有尖锐边角的，应包裹后投放</string>
+    <string name="rubbish_recycle_categorize_content">轻投轻放\n清洁干燥，避免污染\n废纸尽量平整\n立体包装物请清空内容物，清洁后压扁投放\n有尖锐边角的，应包裹后投放
+    </string>
 
     <string name="rubbish_unknown_name">未知</string>
-
-
 
 
     <!-- sth about the http requests -->
@@ -57,6 +57,8 @@
 
     <string name="app_title">垃圾分类手册</string>
     <string name="app_description">垃圾分类，从我做起，让城市更美好！</string>
+
+    <string name="learn_rubbish_name">待分类垃圾</string>
 
     <string name="rubbish_copyright">数据来源@上海公共信息发布平台2019</string>
 </resources>

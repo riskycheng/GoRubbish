@@ -107,7 +107,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
         <Button
-                android:id="@+id/btn_back"
+                android:id="@+id/btn_back_result"
                 android:layout_width="wrap_content" android:layout_height="44dp"
                 android:layout_gravity="center_vertical"
                 android:text="@string/back"
@@ -116,7 +116,7 @@
                 android:background="@drawable/selector_button_with_raduis"
         />
         <Button
-                android:id="@+id/btn_share"
+                android:id="@+id/btn_share_result"
                 android:layout_width="wrap_content" android:layout_height="44dp"
                 android:text="@string/share_to_friends"
                 android:textSize="18sp"
