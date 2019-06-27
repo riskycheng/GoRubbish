@@ -12,6 +12,22 @@ public class RubbishGenrator {
         private String rubbishName;
         private HomeActivity.RubbishType rubbishType;
 
+        public String getRubbishName() {
+            return rubbishName;
+        }
+
+        public void setRubbishName(String rubbishName) {
+            this.rubbishName = rubbishName;
+        }
+
+        public HomeActivity.RubbishType getRubbishType() {
+            return rubbishType;
+        }
+
+        public void setRubbishType(HomeActivity.RubbishType rubbishType) {
+            this.rubbishType = rubbishType;
+        }
+
         public RubbishEntity(String rubbishName, HomeActivity.RubbishType rubbishType) {
             this.rubbishName = rubbishName;
             this.rubbishType = rubbishType;
