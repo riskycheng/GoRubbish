@@ -301,6 +301,7 @@ public class HomeActivity extends Activity {
 
 
     public RubbishType parseCategoryWithHttpResult(String httpResult) {
+        Log.d(TAG, httpResult);
         RubbishType resultType = RubbishType.UNKNOWN;
 
         Document docParser = Jsoup.parse(httpResult);

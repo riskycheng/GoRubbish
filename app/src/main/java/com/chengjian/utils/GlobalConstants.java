@@ -8,7 +8,7 @@ import android.util.Log;
 
 public class GlobalConstants {
     private final static String TAG = GlobalConstants.class.getCanonicalName();
-    public static final String REQUEST_URL = "http://weixin.sh-service.com/sites/feiguan/trashTypes_2/TrashQuery.aspx?kw=";
+    public static final String REQUEST_URL = "http://trash.lhsr.cn/sites/feiguan/trashTypes_2/TrashQuery.aspx?kw=";
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
     private static String[] PERMISSIONS_STORAGE = {
             "android.permission.READ_EXTERNAL_STORAGE",

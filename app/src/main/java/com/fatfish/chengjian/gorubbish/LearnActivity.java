@@ -40,6 +40,9 @@ public class LearnActivity extends AppCompatActivity {
     }
 
 
+
+
+
     public class MyClickListener implements View.OnClickListener, View.OnTouchListener {
         @Override
         public void onClick(View v) {
