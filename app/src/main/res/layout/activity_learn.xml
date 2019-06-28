@@ -7,7 +7,25 @@
         android:orientation="vertical"
         tools:context=".LearnActivity">
 
+    <ImageView
+            android:layout_margin="5dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:id="@+id/learn_back"
+            android:src="@drawable/back"
+    />
 
+
+<com.chengjian.utils.SnailBar
+        android:id="@+id/finishedProgressBar"
+        android:layout_marginTop="60dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:splitTrack="false"
+        android:scaleX="0.8"
+        android:scaleY="0.8"
+        android:thumb="@drawable/snailanim"
+    />
     <TextView
             android:id="@+id/learn_rubbish_name_tobe_categorize"
             android:layout_width="wrap_content"

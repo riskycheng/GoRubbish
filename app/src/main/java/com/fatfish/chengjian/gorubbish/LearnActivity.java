@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.graphics.Color;
 import android.os.Handler;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.*;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
@@ -13,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.chengjian.utils.RubbishGenrator;
+import com.chengjian.utils.SnailBar;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -20,13 +22,19 @@ import java.util.Random;
 import java.util.Set;
 
 public class LearnActivity extends Activity {
+    private final static String TAG = LearnActivity.class.getCanonicalName();
     private ImageView imgBtn_recycle, imgBtn_dry, imgBtn_wet, imgBtn_harm;
     private TextView textRubbishName;
     private ImageView mImageViewResult;
+    private ImageView mBack;
 
     private ArrayList<RubbishGenrator.RubbishEntity> mRubbishLibs = null;
     private Set<Integer> mDisplayedItems = null;
     private RubbishGenrator.RubbishEntity mCur_Rubbish = null;
+
+    private SnailBar mSnailBar = null;
+
+    private int mCurrentScore = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +63,12 @@ public class LearnActivity extends Activity {
 
         mImageViewResult = findViewById(R.id.img_result);
 
+        mSnailBar = findViewById(R.id.finishedProgressBar);
+        mSnailBar.setOnTouchListener(new MyClickListener());
+
+        mBack = findViewById(R.id.learn_back);
+        mBack.setOnClickListener(new MyClickListener());
+
         mRubbishLibs = RubbishGenrator.rubbishLib();
 
         mDisplayedItems = new HashSet<>();
@@ -69,6 +83,16 @@ public class LearnActivity extends Activity {
         mImageViewResult.setVisibility(View.INVISIBLE);
         textRubbishName.animate().scaleY(1.0f).scaleX(1.0f).setDuration(0L).start();
         textRubbishName.setTextColor(Color.BLACK);
+        if (mCurrentScore >= 100){
+            textRubbishName.setText("恭喜完成");
+            //disable the buttons
+            imgBtn_harm.setEnabled(false);
+            imgBtn_wet.setEnabled(false);
+            imgBtn_recycle.setEnabled(false);
+            imgBtn_dry.setEnabled(false);
+            return;
+        }
+
         int index = new Random().nextInt(1000) % mRubbishLibs.size();
         while (mDisplayedItems.contains(index)) {
             index = new Random().nextInt(1000) % mRubbishLibs.size();
@@ -103,13 +127,21 @@ public class LearnActivity extends Activity {
     }
 
     //animation for this text
-    public void startAnimForRubbishName(boolean success) {
+    public void updateUIAfterAnswering(boolean success) {
         mImageViewResult.setVisibility(View.VISIBLE);
         if (success) {
+            mCurrentScore += 5;
+            if (mCurrentScore > 100){
+                Log.e(TAG, "error when updating the snail...");
+            }else{
+                mSnailBar.setProgress(mCurrentScore);
+            }
             mImageViewResult.setImageDrawable(getDrawable(R.drawable.correct));
             //correct animation
             textRubbishName.animate().scaleX(0.f).scaleY(0.f).setDuration(600L).start();
         } else {
+            mCurrentScore = 0;
+            mSnailBar.setProgress(mCurrentScore);
             textRubbishName.setTextColor(Color.RED);
             mImageViewResult.setImageDrawable(getDrawable(R.drawable.wrong));
             //wrong animation
@@ -124,49 +156,58 @@ public class LearnActivity extends Activity {
             switch (v.getId()) {
                 case R.id.learn_category_of_dry:
                     if (mCur_Rubbish.getRubbishType() == HomeActivity.RubbishType.RUBBISH_DRY) {
-                        startAnimForRubbishName(true);
+                        updateUIAfterAnswering(true);
                         new Handler().postDelayed(() -> updateRubbishName(), 1000L);
                     } else {
-                        startAnimForRubbishName(false);
+                        updateUIAfterAnswering(false);
                     }
                     break;
                 case R.id.learn_category_of_harm:
                     if (mCur_Rubbish.getRubbishType() == HomeActivity.RubbishType.RUBBISH_HARM) {
-                        startAnimForRubbishName(true);
+                        updateUIAfterAnswering(true);
                         new Handler().postDelayed(() -> updateRubbishName(), 1000L);
                     } else {
-                        startAnimForRubbishName(false);
+                        updateUIAfterAnswering(false);
                     }
                     break;
                 case R.id.learn_category_of_recycle:
                     if (mCur_Rubbish.getRubbishType() == HomeActivity.RubbishType.RUBBISH_RECYCLE) {
-                        startAnimForRubbishName(true);
+                        updateUIAfterAnswering(true);
                         new Handler().postDelayed(() -> updateRubbishName(), 1000L);
                     } else {
-                        startAnimForRubbishName(false);
+                        updateUIAfterAnswering(false);
                     }
                     break;
                 case R.id.learn_category_of_wet:
                     if (mCur_Rubbish.getRubbishType() == HomeActivity.RubbishType.RUBBISH_WET) {
-                        startAnimForRubbishName(true);
+                        updateUIAfterAnswering(true);
                         new Handler().postDelayed(() -> updateRubbishName(), 1000L);
                     } else {
-                        startAnimForRubbishName(false);
+                        updateUIAfterAnswering(false);
                     }
                     break;
                 case R.id.learn_rubbish_name_tobe_categorize:
                     Toast.makeText(LearnActivity.this, mCur_Rubbish.getRubbishType().toString(), Toast.LENGTH_SHORT).show();
+                    break;
+
+                case R.id.learn_back:
+                    finish();
                     break;
             }
         }
 
         @Override
         public boolean onTouch(View v, MotionEvent event) {
+            if (v.getId() == R.id.finishedProgressBar){
+                return true;
+            }
             if (event.getAction() == MotionEvent.ACTION_DOWN) {
                 v.animate().scaleX(0.8f).scaleY(0.8f).setDuration(80L).start();
             } else if (event.getAction() == MotionEvent.ACTION_UP) {
                 v.animate().scaleX(1.0f).scaleY(1.0f).setDuration(80L).start();
             }
+
+
 
 
             return false;

@@ -130,7 +130,6 @@ public class RubbishGenrator {
         rubbishEntities.add(new RubbishEntity("报纸", HomeActivity.RubbishType.RUBBISH_RECYCLE));
         rubbishEntities.add(new RubbishEntity("包装纸", HomeActivity.RubbishType.RUBBISH_RECYCLE));
         rubbishEntities.add(new RubbishEntity("布鞋", HomeActivity.RubbishType.RUBBISH_RECYCLE));
-        rubbishEntities.add(new RubbishEntity("油漆", HomeActivity.RubbishType.RUBBISH_RECYCLE));
         rubbishEntities.add(new RubbishEntity("铁具", HomeActivity.RubbishType.RUBBISH_RECYCLE));
         rubbishEntities.add(new RubbishEntity("铝箔", HomeActivity.RubbishType.RUBBISH_RECYCLE));
         rubbishEntities.add(new RubbishEntity("餐具", HomeActivity.RubbishType.RUBBISH_RECYCLE));
