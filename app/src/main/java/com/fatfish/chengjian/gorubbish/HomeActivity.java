@@ -61,6 +61,7 @@ public class HomeActivity extends Activity {
     private LinearLayout mLinearButtonsBackShare = null;
     // the back and share button
     private Button mBtnBack = null;
+    private Button mBtnGoodsRecommnend = null;
 
     private Button mBtnPractice = null;
     private Button mBtnShareWithResult = null;
@@ -144,6 +145,9 @@ public class HomeActivity extends Activity {
         //initialize the buttons
         mBtnBack = findViewById(R.id.btn_back_result);
         mBtnBack.setOnClickListener(new MyClickListener());
+
+        mBtnGoodsRecommnend = findViewById(R.id.btn_goods_recommend);
+        mBtnGoodsRecommnend.setOnClickListener(new MyClickListener());
 
         mBtnPractice = findViewById(R.id.btn_practice);
         mBtnPractice.setOnClickListener(new MyClickListener());
@@ -424,6 +428,11 @@ public class HomeActivity extends Activity {
                     startActivity(intent);
                     break;
 
+                case R.id.btn_goods_recommend:
+                    Intent intent_goods = new Intent();
+                    intent_goods.setClass(HomeActivity.this, GoodsRecommendActivity.class);
+                    startActivity(intent_goods);
+                    break;
                 case R.id.btn_back_result:
                     //hide the result page and show the linear array
                     mLinearLayoutCategories.setVisibility(View.VISIBLE);
@@ -446,7 +455,7 @@ public class HomeActivity extends Activity {
                     imgWechat.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            Toast.makeText(HomeActivity.this, "wechat friend sharing", Toast.LENGTH_LONG).show();
+//                            Toast.makeText(HomeActivity.this, "wechat friend sharing", Toast.LENGTH_LONG).show();
                             shareToWxFriend(new File(savedPath));
                         }
                     });
@@ -454,7 +463,7 @@ public class HomeActivity extends Activity {
                     imgWechatTimeLine.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            Toast.makeText(HomeActivity.this, "timeLine sharing", Toast.LENGTH_LONG).show();
+//                            Toast.makeText(HomeActivity.this, "timeLine sharing", Toast.LENGTH_LONG).show();
                             //share to timeline
                             shareToTimeLine(new File(savedPath));
                         }
@@ -463,7 +472,7 @@ public class HomeActivity extends Activity {
                     imgQQ.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            Toast.makeText(HomeActivity.this, "QQ friend sharing", Toast.LENGTH_LONG).show();
+//                            Toast.makeText(HomeActivity.this, "QQ friend sharing", Toast.LENGTH_LONG).show();
                             shareToQQFriend(new File(savedPath));
                         }
                     });

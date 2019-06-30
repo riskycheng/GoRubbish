@@ -195,7 +195,6 @@ public class LearnActivity extends Activity {
                     }
                     break;
                 case R.id.learn_rubbish_name_tobe_categorize:
-                    Toast.makeText(LearnActivity.this, mCur_Rubbish.getRubbishType().toString(), Toast.LENGTH_SHORT).show();
                     break;
 
                 case R.id.learn_back:

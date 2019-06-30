@@ -50,6 +50,9 @@
     <string name="cancel">取\t\t消</string>
     <string name="share_to_friends">告诉朋友</string>
 
+    <string name="goods_recommends">垃圾桶领券内部价</string>
+    <string name="goods_recommends_bins">高性价比垃圾桶</string>
+
     <string name="not_found">抱歉哦，未找到该垃圾类型</string>
 
     <string name="practice">练习一下</string>
