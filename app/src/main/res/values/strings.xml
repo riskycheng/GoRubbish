@@ -47,6 +47,7 @@
 
 
     <string name="back">返\t\t回</string>
+    <string name="cancel">取\t\t消</string>
     <string name="share_to_friends">告诉朋友</string>
 
     <string name="not_found">抱歉哦，未找到该垃圾类型</string>

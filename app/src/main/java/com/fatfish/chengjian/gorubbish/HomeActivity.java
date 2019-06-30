@@ -3,6 +3,7 @@ package com.fatfish.chengjian.gorubbish;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -12,6 +13,7 @@ import android.net.Uri;
 import android.os.*;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.AccelerateDecelerateInterpolator;
@@ -434,8 +436,46 @@ public class HomeActivity extends Activity {
                     final Bitmap bitmapForShare = shareView.createImage();
                     String savedPath = saveImage(bitmapForShare, GlobalConstants.getSharedImagePath());
                     Log.d(TAG, "saved to ==> " + savedPath);
-                    //share to timeline
-                    shareToTimeLine(new File(savedPath));
+
+
+                    //pop out the dialog to select social media to share the result
+                    SweetAlertDialog shareDialog = new SweetAlertDialog(HomeActivity.this, SweetAlertDialog.NORMAL_TYPE);
+
+                    View dialogView = LayoutInflater.from(HomeActivity.this).inflate(R.layout.share_dialog, null);
+                    ImageView imgWechat = dialogView.findViewById(R.id.share_wechat);
+                    imgWechat.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Toast.makeText(HomeActivity.this, "wechat friend sharing", Toast.LENGTH_LONG).show();
+                            shareToWxFriend(new File(savedPath));
+                        }
+                    });
+                    ImageView imgWechatTimeLine = dialogView.findViewById(R.id.share_wechatTimeline);
+                    imgWechatTimeLine.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Toast.makeText(HomeActivity.this, "timeLine sharing", Toast.LENGTH_LONG).show();
+                            //share to timeline
+                            shareToTimeLine(new File(savedPath));
+                        }
+                    });
+                    ImageView imgQQ = dialogView.findViewById(R.id.share_qq);
+                    imgQQ.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Toast.makeText(HomeActivity.this, "QQ friend sharing", Toast.LENGTH_LONG).show();
+                            shareToQQFriend(new File(savedPath));
+                        }
+                    });
+
+                    shareDialog.setCustomView(dialogView);
+                    shareDialog.setTitle("分享到");
+                    shareDialog.setConfirmText(getString(R.string.cancel));
+                    shareDialog.show();
+
+
+
+
                     if (bitmapForShare != null && !bitmapForShare.isRecycled()) {
                         bitmapForShare.recycle();
                     }
@@ -444,6 +484,23 @@ public class HomeActivity extends Activity {
         }
     }
 
+
+
+    /**
+     * 根据手机的分辨率从 dp 的单位 转成为 px(像素)
+     */
+    public static int dip2px(Context context, float dpValue) {
+        final float scale = context.getResources().getDisplayMetrics().density;
+        return (int) (dpValue * scale + 0.5f);
+    }
+
+    /**
+     * 根据手机的分辨率从 px(像素) 的单位 转成为 dp
+     */
+    public static int px2dip(Context context, float pxValue) {
+        final float scale = context.getResources().getDisplayMetrics().density;
+        return (int) (pxValue / scale + 0.5f);
+    }
 
     private void resetOtherCategoryToNormalAnim() {
         mCategory_dry.animate()
@@ -540,14 +597,14 @@ public class HomeActivity extends Activity {
     /**
      * 分享信息到朋友
      */
-    private void shareToWxFriend() {
+    private void shareToWxFriend(File file) {
         Intent intent = new Intent();
         ComponentName componentName = new ComponentName("com.tencent.mm", "com.tencent.mm.ui.tools.ShareImgUI");
         intent.setComponent(componentName);
         intent.setAction(Intent.ACTION_SEND);
-        intent.setType("text/*");
+        intent.setType("image/*");
         intent.putExtra(Intent.EXTRA_TEXT, "这是分享内容");
-        intent.putExtra(Intent.EXTRA_STREAM, "http://www.weixin.com");
+        intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(file));
         try {
             startActivity(intent);
         } catch (Exception e) {
@@ -559,13 +616,14 @@ public class HomeActivity extends Activity {
     /**
      * 分享到QQ好友
      */
-    private void shareToQQFriend() {
+    private void shareToQQFriend(File file) {
         Intent intent = new Intent();
         ComponentName componentName = new ComponentName("com.tencent.mobileqq", "com.tencent.mobileqq.activity.JumpActivity");
         intent.setComponent(componentName);
         intent.setAction(Intent.ACTION_SEND);
-        intent.setType("text/*");
+        intent.setType("image/*");
         intent.putExtra(Intent.EXTRA_TEXT, "这是分享内容");
+        intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(file));
         try {
             startActivity(intent);
         } catch (Exception e) {
