@@ -294,6 +294,14 @@ public class HomeActivity extends Activity {
             case UNKNOWN:
                 mTextView_result_category.setText(getString(R.string.rubbish_unknown_name));
                 mLinearLayoutResultPart.setVisibility(View.GONE);
+                mLinearLayoutDemoPart.setVisibility(View.VISIBLE);
+                mLinearLayoutCategories.setVisibility(View.VISIBLE);
+                SweetAlertDialog failDialog = new SweetAlertDialog(HomeActivity.this, SweetAlertDialog.ERROR_TYPE);
+                failDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
+                failDialog.setTitleText(getString(R.string.not_found));
+                failDialog.setCancelable(true);
+                failDialog.setCancelText(getString(R.string.i_know));
+                failDialog.show();
                 break;
         }
         mScrollViewFull.post(() -> mScrollViewFull.smoothScrollTo(0, mLinearButtonsBackShare.getBottom()));

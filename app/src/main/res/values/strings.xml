@@ -49,6 +49,8 @@
     <string name="back">返\t\t回</string>
     <string name="share_to_friends">告诉朋友</string>
 
+    <string name="not_found">抱歉哦，未找到该垃圾类型</string>
+
     <string name="practice">练习一下</string>
     <string name="demo_description">想让上海的生活环境更好，垃圾自然是需要严格进行管理的。而今年开始，上海将会更加干净！</string>
     <string name="demo_description_1">&lt;&lt;上海市生活垃圾管理条例&gt;&gt; \n将于2019年7月1日正式实施！</string>

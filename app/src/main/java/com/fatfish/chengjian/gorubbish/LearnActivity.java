@@ -80,10 +80,16 @@ public class LearnActivity extends Activity {
 
     // update the text to be categorize
     public void updateRubbishName() {
+        //if it is already full, then clear it
+        if (mDisplayedItems.size() >= mRubbishLibs.size()) {
+            Log.d(TAG, "clear current libs");
+            mDisplayedItems.clear();
+        }
+
         mImageViewResult.setVisibility(View.INVISIBLE);
         textRubbishName.animate().scaleY(1.0f).scaleX(1.0f).setDuration(0L).start();
         textRubbishName.setTextColor(Color.BLACK);
-        if (mCurrentScore >= 100){
+        if (mCurrentScore >= 100) {
             textRubbishName.setText("恭喜完成");
             //disable the buttons
             imgBtn_harm.setEnabled(false);
@@ -131,16 +137,18 @@ public class LearnActivity extends Activity {
         mImageViewResult.setVisibility(View.VISIBLE);
         if (success) {
             mCurrentScore += 5;
-            if (mCurrentScore > 100){
+            if (mCurrentScore > 100) {
                 Log.e(TAG, "error when updating the snail...");
-            }else{
+            } else {
                 mSnailBar.setProgress(mCurrentScore);
             }
             mImageViewResult.setImageDrawable(getDrawable(R.drawable.correct));
             //correct animation
             textRubbishName.animate().scaleX(0.f).scaleY(0.f).setDuration(600L).start();
         } else {
-            mCurrentScore = 0;
+            mCurrentScore -= 10;
+            if (mCurrentScore < 0)
+                mCurrentScore = 0;
             mSnailBar.setProgress(mCurrentScore);
             textRubbishName.setTextColor(Color.RED);
             mImageViewResult.setImageDrawable(getDrawable(R.drawable.wrong));
@@ -198,7 +206,7 @@ public class LearnActivity extends Activity {
 
         @Override
         public boolean onTouch(View v, MotionEvent event) {
-            if (v.getId() == R.id.finishedProgressBar){
+            if (v.getId() == R.id.finishedProgressBar) {
                 return true;
             }
             if (event.getAction() == MotionEvent.ACTION_DOWN) {
@@ -206,8 +214,6 @@ public class LearnActivity extends Activity {
             } else if (event.getAction() == MotionEvent.ACTION_UP) {
                 v.animate().scaleX(1.0f).scaleY(1.0f).setDuration(80L).start();
             }
-
-
 
 
             return false;
