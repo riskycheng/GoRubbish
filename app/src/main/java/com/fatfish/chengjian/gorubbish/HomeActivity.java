@@ -13,6 +13,7 @@ import android.os.*;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.*;
 import cn.pedant.SweetAlert.SweetAlertDialog;
@@ -58,7 +59,6 @@ public class HomeActivity extends Activity {
     private LinearLayout mLinearButtonsBackShare = null;
     // the back and share button
     private Button mBtnBack = null;
-    private Button mBtnShare = null;
 
     private Button mBtnPractice = null;
     private Button mBtnShareWithResult = null;
@@ -142,14 +142,12 @@ public class HomeActivity extends Activity {
         //initialize the buttons
         mBtnBack = findViewById(R.id.btn_back_result);
         mBtnBack.setOnClickListener(new MyClickListener());
-        mBtnShare = findViewById(R.id.btn_share_app);
-        mBtnShare.setOnClickListener(new MyClickListener());
 
         mBtnPractice = findViewById(R.id.btn_practice);
         mBtnPractice.setOnClickListener(new MyClickListener());
         mBtnShareWithResult = findViewById(R.id.btn_share_result);
         mBtnShareWithResult.setOnClickListener(new MyClickListener());
-
+        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
     }
 
 
@@ -423,10 +421,6 @@ public class HomeActivity extends Activity {
                     intent.setClass(HomeActivity.this, LearnActivity.class);
                     startActivity(intent);
                     break;
-
-                case R.id.btn_share_app:
-                    break;
-
 
                 case R.id.btn_back_result:
                     //hide the result page and show the linear array
