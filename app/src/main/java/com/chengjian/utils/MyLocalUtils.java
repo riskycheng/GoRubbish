@@ -2,6 +2,9 @@ package com.chengjian.utils;
 
 import android.content.Context;
 import com.fatfish.chengjian.gorubbish.R;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -21,7 +24,7 @@ public class MyLocalUtils {
         for (int i = 0; i < count; i++) {
             GoodsEntity goodsEntity = new GoodsEntity();
             goodsEntity.setImage(context.getDrawable(drawableIntArr[new Random().nextInt(drawableIntArr.length)]));
-            String priceStr = "¥ " + (new Random().nextFloat() + new Random().nextInt(200));
+            double priceStr = (new Random().nextFloat() + new Random().nextInt(200));
             goodsEntity.setPrice(priceStr);
             goodsEntity.setDescription("家用厨房客厅卫生间无盖垃圾筒纸篓");
             goodsEntity.setCode(localCodes[new Random().nextInt(localCodes.length)]);
@@ -29,4 +32,35 @@ public class MyLocalUtils {
         }
         return goodsEntities;
     }
+
+
+    //parse the json file to build the arrayList for the GoodEntity
+    public static ArrayList<GoodsEntity> buildGoodsFromJson(String jsonData){
+        ArrayList<GoodsEntity> goodsEntities = new ArrayList<>();
+        try {
+            JSONArray jsonArray = new JSONArray(jsonData);
+            for (int i = 0; i < jsonArray.length(); i++){
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                if (jsonObject != null){
+                    GoodsEntity goodsEntity = new GoodsEntity();
+                    goodsEntity.setCode(jsonObject.getString("code"));
+                    goodsEntity.setDescription(jsonObject.getString("description"));
+                    goodsEntity.setImgLink(jsonObject.getString("img_link"));
+                    goodsEntity.setPrice(jsonObject.getDouble("price"));
+                    goodsEntities.add(goodsEntity);
+                }
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return goodsEntities;
+    }
+
+
+
+
+
+
+
+
 }

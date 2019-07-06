@@ -5,17 +5,27 @@ import android.graphics.drawable.Drawable;
 public class GoodsEntity {
     private String code;
     private Drawable image;
-    private String price;
+    private String imgLink;
+    private double price;
     private String description;
 
     public GoodsEntity() {
     }
 
-    public GoodsEntity(String code, Drawable image, String price, String description) {
+    public GoodsEntity(String code, Drawable image, String imgLink, double price, String description) {
         this.code = code;
         this.image = image;
+        this.imgLink = imgLink;
         this.price = price;
         this.description = description;
+    }
+
+    public String getImgLink() {
+        return imgLink;
+    }
+
+    public void setImgLink(String imgLink) {
+        this.imgLink = imgLink;
     }
 
     public String getCode() {
@@ -34,11 +44,11 @@ public class GoodsEntity {
         this.image = image;
     }
 
-    public String getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(String price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 
@@ -48,5 +58,16 @@ public class GoodsEntity {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    @Override
+    public String toString() {
+        return "GoodsEntity{" +
+                "code='" + code + '\'' +
+                ", image=" + image +
+                ", imgLink='" + imgLink + '\'' +
+                ", price=" + price +
+                ", description='" + description + '\'' +
+                '}';
     }
 }

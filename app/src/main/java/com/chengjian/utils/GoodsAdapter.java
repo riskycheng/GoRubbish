@@ -51,7 +51,7 @@ public class GoodsAdapter extends RecyclerView.Adapter {
         //update the value
         GoodsEntity goodsEntity = mGoods.get(i);
         myHolder.imageView.setImageDrawable(goodsEntity.getImage());
-        myHolder.textView_price.setText(goodsEntity.getPrice());
+        myHolder.textView_price.setText("¥ " + goodsEntity.getPrice());
         myHolder.textView_des.setText(goodsEntity.getDescription());
         //add the click listener
         myHolder.imageView.setOnClickListener(new View.OnClickListener() {
