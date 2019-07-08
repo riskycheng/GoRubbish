@@ -135,8 +135,16 @@ public class TestFunc {
         for (GoodsEntity goodsEntity : goodsEntities){
             System.out.println(goodsEntity.toString());
         }
+    }
 
 
-
+    @Test
+    public void testDownloadJson(){
+        String urlLink = "http://106.52.25.193:8088/Dustbins/webInfo.json";
+        String result = MyLocalUtils.downloadJson(urlLink);
+        ArrayList<GoodsEntity> goodsEntities = MyLocalUtils.buildGoodsFromJson(result);
+        for (GoodsEntity goodsEntity : goodsEntities){
+            System.out.println(goodsEntity.toString());
+        }
     }
 }

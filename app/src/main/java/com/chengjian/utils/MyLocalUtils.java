@@ -1,11 +1,16 @@
 package com.chengjian.utils;
 
 import android.content.Context;
+import android.util.Log;
 import com.fatfish.chengjian.gorubbish.R;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.*;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -57,6 +62,57 @@ public class MyLocalUtils {
     }
 
 
+
+
+    public static String downloadJson(final String urlStr)
+    {
+        InputStream inStream = null;
+        URL url = null;
+        try
+        {
+            url = new URL(urlStr);
+        } catch (MalformedURLException e)
+        {
+            e.printStackTrace();
+        }
+        HttpURLConnection conn = null;
+        try {
+            conn = (HttpURLConnection) url.openConnection();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        conn.setConnectTimeout(5 * 1000);
+        try {
+            conn.setRequestMethod("GET");
+            conn.connect();
+        } catch (Exception e) {
+        }
+
+        try {
+            inStream= conn.getInputStream();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        StringBuilder sb = null;
+        try {
+            BufferedReader reader = new BufferedReader(new InputStreamReader(inStream,"utf-8"));
+            sb= new StringBuilder();
+            String line = null;
+            try {
+                while ((line = reader.readLine()) != null) {
+                    sb.append(line);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+
+        return sb.toString();
+    }
 
 
 
