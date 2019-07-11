@@ -15,17 +15,42 @@
             android:layout_width="160dp"
             android:layout_height="160dp"
             android:src="@drawable/dustbin_01"/>
-
-    <TextView
-            android:id="@+id/good_price"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="¥ 7.90"
-            android:textColor="@android:color/holo_red_light"
-            android:textStyle="bold"
-            android:textSize="16sp"
-    />
-
+    <LinearLayout android:layout_width="160dp" android:layout_height="wrap_content"
+                  android:orientation="horizontal">
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" ¥ "
+                android:textColor="@android:color/holo_red_light"
+                android:textStyle="bold"
+                android:textSize="16sp"/>
+        <TextView
+                android:id="@+id/good_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="7.90"
+                android:textColor="@android:color/holo_red_light"
+                android:textStyle="bold"
+                android:textSize="16sp"
+        />
+        <TextView
+                android:layout_marginStart="2dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" 淘宝价: ¥ "
+                android:textColor="@android:color/darker_gray"
+                android:textStyle="bold"
+                android:textSize="12sp"/>
+        <TextView
+                android:id="@+id/origin_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="19.90"
+                android:textColor="@android:color/darker_gray"
+                android:textStyle="bold"
+                android:textSize="12sp"
+        />
+    </LinearLayout>
     <TextView
             android:id="@+id/good_des"
             android:layout_width="wrap_content"

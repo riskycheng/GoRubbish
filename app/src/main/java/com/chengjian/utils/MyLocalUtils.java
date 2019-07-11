@@ -28,10 +28,10 @@ public class MyLocalUtils {
                 "复製这条(0boCYgOPLcu),\n进入【Tao宝】即可抢购","复製这条(TSRBYgOls7n),\n进入【Tao宝】即可抢购"};
         for (int i = 0; i < count; i++) {
             GoodsEntity goodsEntity = new GoodsEntity();
-            goodsEntity.setImage(context.getDrawable(drawableIntArr[new Random().nextInt(drawableIntArr.length)]));
+            goodsEntity.setImage(context.getDrawable(R.drawable.loading_gif));
             double priceStr = (new Random().nextFloat() + new Random().nextInt(200));
-            goodsEntity.setPrice(priceStr);
-            goodsEntity.setDescription("家用厨房客厅卫生间无盖垃圾筒纸篓");
+            goodsEntity.setPrice(9.99);
+            goodsEntity.setDescription("特价垃圾桶加载中...");
             goodsEntity.setCode(localCodes[new Random().nextInt(localCodes.length)]);
             goodsEntities.add(goodsEntity);
         }
@@ -50,8 +50,9 @@ public class MyLocalUtils {
                     GoodsEntity goodsEntity = new GoodsEntity();
                     goodsEntity.setCode(jsonObject.getString("code"));
                     goodsEntity.setDescription(jsonObject.getString("description"));
-                    goodsEntity.setImgLink(jsonObject.getString("img_link"));
+                    goodsEntity.setImgLink(GlobalConstants.MY_SERVER_ADDR_PREFIX + jsonObject.getString("img_link"));
                     goodsEntity.setPrice(jsonObject.getDouble("price"));
+                    goodsEntity.seOriginPrice(jsonObject.getDouble("origin_price"));
                     goodsEntities.add(goodsEntity);
                 }
             }

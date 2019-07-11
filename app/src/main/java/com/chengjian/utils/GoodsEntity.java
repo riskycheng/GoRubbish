@@ -7,9 +7,18 @@ public class GoodsEntity {
     private Drawable image;
     private String imgLink;
     private double price;
+    private double originPrice;
     private String description;
 
     public GoodsEntity() {
+    }
+
+    public double getOriginPrice() {
+        return originPrice;
+    }
+
+    public void seOriginPrice(double originPrice) {
+        this.originPrice = originPrice;
     }
 
     public GoodsEntity(String code, Drawable image, String imgLink, double price, String description) {

@@ -44,6 +44,7 @@
     <string name="network_error">请检查网络，稍后再试!</string>
     <string name="i_know">知道了</string>
     <string name="querying_loading">正在查询...</string>
+    <string name="loading">正在加载...</string>
 
 
     <string name="back">返\t\t回</string>
